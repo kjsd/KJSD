@@ -74,7 +74,7 @@ namespace kjsd
     template<typename Sig> class Command;
 
     template<typename R>
-	class Command<R()> : public Delegate<R()>
+    class Command<R()> : public Delegate<R()>
     {
     public:
         Command(Function<R()>* fp = 0) : Delegate<R()>(fp)
@@ -92,39 +92,39 @@ namespace kjsd
         }
     };
 
-#define KJSD_COMMAND_DEF(num)											\
+#define KJSD_COMMAND_DEF(num)                                           \
     template<KJSD_DELEGATE_TPAR##num>                                   \
-	class Command<R(KJSD_DELEGATE_TARG##num)> :							\
-		public Delegate<R(KJSD_DELEGATE_TARG##num)>						\
+    class Command<R(KJSD_DELEGATE_TARG##num)> :                         \
+        public Delegate<R(KJSD_DELEGATE_TARG##num)>                     \
     {                                                                   \
     public:                                                             \
-        Command(Function<R(KJSD_DELEGATE_TARG##num)>* fp = 0) :			\
-            Delegate<R(KJSD_DELEGATE_TARG##num)>(fp)					\
-        {}																\
-        Command(KJSD_COMMAND_CPAR##num									\
-				Function<R(KJSD_DELEGATE_TARG##num)>* fp = 0) :			\
-            Delegate<R(KJSD_DELEGATE_TARG##num)>(fp)					\
-            KJSD_COMMAND_CPAR_BIND##num									\
-        {}																\
-        virtual ~Command() {}											\
-																		\
+        Command(Function<R(KJSD_DELEGATE_TARG##num)>* fp = 0) :         \
+            Delegate<R(KJSD_DELEGATE_TARG##num)>(fp)                    \
+        {}                                                              \
+        Command(KJSD_COMMAND_CPAR##num                                  \
+                Function<R(KJSD_DELEGATE_TARG##num)>* fp = 0) :         \
+            Delegate<R(KJSD_DELEGATE_TARG##num)>(fp)                    \
+            KJSD_COMMAND_CPAR_BIND##num                                 \
+        {}                                                              \
+        virtual ~Command() {}                                           \
+                                                                        \
         Command<R(KJSD_DELEGATE_TARG##num)>&                            \
             operator=(Function<R(KJSD_DELEGATE_TARG##num)>* fp)         \
             {                                                           \
                 Delegate<R(KJSD_DELEGATE_TARG##num)>::operator=(fp);    \
                 return *this;                                           \
             }                                                           \
-        R operator()() const											\
-        {																\
-            return Delegate<R(KJSD_DELEGATE_TARG##num)>::				\
-				operator()(KJSD_COMMAND_FARG##num);						\
-        }																\
-		void bind(KJSD_COMMAND_FPAR##num)								\
-		{																\
-			KJSD_COMMAND_FPAR_ENTR##num;								\
-		}																\
+        R operator()() const                                            \
+        {                                                               \
+            return Delegate<R(KJSD_DELEGATE_TARG##num)>::               \
+                operator()(KJSD_COMMAND_FARG##num);                     \
+        }                                                               \
+        void bind(KJSD_COMMAND_FPAR##num)                               \
+        {                                                               \
+            KJSD_COMMAND_FPAR_ENTR##num;                                \
+        }                                                               \
     private:                                                            \
-        KJSD_COMMAND_FPAR_DEF##num;										\
+        KJSD_COMMAND_FPAR_DEF##num;                                     \
     }
 
     KJSD_COMMAND_DEF(1);

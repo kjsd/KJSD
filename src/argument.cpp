@@ -111,13 +111,13 @@ Argument::iterator Argument::iterator::operator++(int)
 bool Argument::iterator::operator==(const Argument::iterator& it) const
 {
     return (stat_ == it.stat_) && (index_ == it.index_)
-		&& (optp_ == it.optp_);
+        && (optp_ == it.optp_);
 }
 
 bool Argument::iterator::operator!=(const Argument::iterator& it) const
 {
     return (stat_ != it.stat_) || (index_ != it.index_)
-		|| (optp_ != it.optp_);
+        || (optp_ != it.optp_);
 }
 
 const char *Argument::iterator::argument() const

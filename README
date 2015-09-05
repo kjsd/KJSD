@@ -5,7 +5,7 @@ ABOUT US
 ========
 This is the K&J Software Distribution aka KJSD.
 
-We are various C/C++ libraries which have NO ANY GOAL. However, This
+We are various C/C++ libraries which have NO ANY GOAL. However, this
 libraries have a little rule for designed:
 
 1. Keep It Simple
@@ -13,7 +13,7 @@ libraries have a little rule for designed:
 3. Cross-Platform as possible
 
 If you can use rich platform which like .NET, boost, C++0x, and so on,
-We may have no help to you.
+we may have no help to you.
 
 
 COPYING

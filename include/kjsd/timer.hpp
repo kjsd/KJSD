@@ -76,8 +76,8 @@ namespace kjsd
          * @brief A constructor. Timer::running is initially false.
          */
         Timer() :
-			running_(false), start_clock_(0), start_time_(0), acc_time_(0)
-		{}
+            running_(false), start_clock_(0), start_time_(0), acc_time_(0)
+        {}
 
         /**
          * @brief Start a timer.  If it is already running, let it
@@ -115,7 +115,7 @@ namespace kjsd
     inline double Timer::my_clock()
     {
 #if defined(KJSD_HAVE_POSIX_REALTIME_EXTENSION) || defined(KJSD_HAVE_MACH)
-		struct timespec ts;
+        struct timespec ts;
 #ifdef KJSD_HAVE_MACH
         clock_serv_t cclock;
         mach_timespec_t mts;
@@ -125,15 +125,15 @@ namespace kjsd
         ts.tv_sec = mts.tv_sec;
         ts.tv_nsec = mts.tv_nsec;
 #else
-		clock_gettime(CLOCK_REALTIME, &ts);
+        clock_gettime(CLOCK_REALTIME, &ts);
 #endif // KJSD_HAVE_MACH
-		return ts.tv_sec + static_cast<double>(ts.tv_nsec) * 1e-9;
+        return ts.tv_sec + static_cast<double>(ts.tv_nsec) * 1e-9;
 #elif defined(KJSD_HAVE_WIN32)
-		LARGE_INTEGER freq;
-		LARGE_INTEGER count;
-		QueryPerformanceFrequency(&freq);
-		QueryPerformanceCounter(&count);
-		return static_cast<double>(count.QuadPart) / freq.QuadPart;
+        LARGE_INTEGER freq;
+        LARGE_INTEGER count;
+        QueryPerformanceFrequency(&freq);
+        QueryPerformanceCounter(&count);
+        return static_cast<double>(count.QuadPart) / freq.QuadPart;
 #else
         return static_cast<double>(clock()) / CLOCKS_PER_SEC;
 #endif

@@ -38,48 +38,48 @@ extern "C" {
 #include <stdio.h>
 #include <stdlib.h>
 
-#define KJSD_CUTIL_ASSERT(x)											\
-	do {																\
-		if (!(x)) {														\
-			printf("Assertion false at %s:%d\n", __FILE__, __LINE__);	\
-			abort();													\
-		}																\
+#define KJSD_CUTIL_ASSERT(x)                                            \
+    do {                                                                \
+        if (!(x)) {                                                     \
+            printf("Assertion false at %s:%d\n", __FILE__, __LINE__);   \
+            abort();                                                    \
+        }                                                               \
     } while (0)
 
 #define KJSD_CUTIL_SASSERT(exp, msg) static char KJSD_##msg##__[(exp)?1:-1]
 
 #if __STDC_VERSION__ >= 199901L || defined(__cplusplus)
-#define KJSD_CUTIL_DPRINTF(...)					\
-	do {										\
-		printf("[%s:%d] ", __FILE__, __LINE__);	\
-		printf(__VA_ARGS__);					\
+#define KJSD_CUTIL_DPRINTF(...)                 \
+    do {                                        \
+        printf("[%s:%d] ", __FILE__, __LINE__); \
+        printf(__VA_ARGS__);                    \
     } while (0)
 
-#define KJSD_CUTIL_ASSERT_MSG(x, ...)									\
-	do {																\
-		if (!(x)) {														\
-			printf("Assertion false at %s:%d: ", __FILE__, __LINE__);	\
-			printf(__VA_ARGS__);										\
-			abort();													\
-		}																\
+#define KJSD_CUTIL_ASSERT_MSG(x, ...)                                   \
+    do {                                                                \
+        if (!(x)) {                                                     \
+            printf("Assertion false at %s:%d: ", __FILE__, __LINE__);   \
+            printf(__VA_ARGS__);                                        \
+            abort();                                                    \
+        }                                                               \
     } while (0)
 
 #else
 
-#define KJSD_CUTIL_DPRINTF(msg)					\
-	do {										\
-		printf("[%s:%d] ", __FILE__, __LINE__);	\
-		printf msg;								\
+#define KJSD_CUTIL_DPRINTF(msg)                 \
+    do {                                        \
+        printf("[%s:%d] ", __FILE__, __LINE__); \
+        printf msg;                             \
     } while (0)
 
-#define KJSD_CUTIL_ASSERT_MSG(x, msg)									\
-	do {																\
-		if (!(x)) {														\
-			printf("Assertion false at %s:%d: ", __FILE__, __LINE__);	\
-			printf msg;													\
-			abort();													\
-		}																\
-	} while (0)
+#define KJSD_CUTIL_ASSERT_MSG(x, msg)                                   \
+    do {                                                                \
+        if (!(x)) {                                                     \
+            printf("Assertion false at %s:%d: ", __FILE__, __LINE__);   \
+            printf msg;                                                 \
+            abort();                                                    \
+        }                                                               \
+    } while (0)
 
 #endif
 #endif // NDEBUG
@@ -108,14 +108,14 @@ extern "C" {
 #if defined(KJSD_HAVE_POSIX_REALTIME_EXTENSION) || defined(KJSD_HAVE_MACH)
 #include <time.h>
 #include <errno.h>
-#define KJSD_CUTIL_MSLEEP(ms)								\
-	do {													\
-		struct timespec req;								\
-		struct timespec rem = { 0, 0 };						\
-		req.tv_sec = (int)(ms) / 1000;						\
-		req.tv_nsec = (ms % 1000) * 1e+6;					\
-		for (; nanosleep(&req, &rem) == EINTR; req = rem);	\
-	} while (0)
+#define KJSD_CUTIL_MSLEEP(ms)                               \
+    do {                                                    \
+        struct timespec req;                                \
+        struct timespec rem = { 0, 0 };                     \
+        req.tv_sec = (int)(ms) / 1000;                      \
+        req.tv_nsec = (ms % 1000) * 1e+6;                   \
+        for (; nanosleep(&req, &rem) == EINTR; req = rem);  \
+    } while (0)
 #elif defined(KJSD_HAVE_WIN32)
 #include <windows.h>
 #define KJSD_CUTIL_MSLEEP(ms) Sleep(ms)

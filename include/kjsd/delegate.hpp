@@ -64,11 +64,11 @@ namespace kjsd
     {                                                                   \
     public:                                                             \
         virtual ~Function() {}                                          \
-        virtual R operator()(KJSD_DELEGATE_FPAR##num) const = 0;		\
+        virtual R operator()(KJSD_DELEGATE_FPAR##num) const = 0;        \
         virtual bool operator==                                         \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>&) const = 0;	\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>&) const = 0;    \
         virtual bool operator!=                                         \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>&) const = 0;	\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>&) const = 0;    \
     }
 
     /**
@@ -98,7 +98,7 @@ namespace kjsd
             f_ = me.f_;                                                 \
             return *this;                                               \
         }                                                               \
-        virtual R operator()(KJSD_DELEGATE_FPAR##num) const				\
+        virtual R operator()(KJSD_DELEGATE_FPAR##num) const             \
         {                                                               \
             return (inst_ == 0) ?                                       \
                 Nop<R(KJSD_DELEGATE_TARG##num)>::                       \
@@ -106,7 +106,7 @@ namespace kjsd
                 (inst_->*f_)(KJSD_DELEGATE_FARG##num);                  \
         }                                                               \
         virtual bool operator==                                         \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const		\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const      \
         {                                                               \
             const InstanceFunction<T, R(KJSD_DELEGATE_TARG##num)>*      \
                 func = static_cast<const InstanceFunction               \
@@ -115,12 +115,12 @@ namespace kjsd
                 (f_ == func->f_);                                       \
         }                                                               \
         virtual bool operator!=                                         \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const		\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const      \
         {                                                               \
-			return !(operator==(fi));									\
+            return !(operator==(fi));                                   \
         }                                                               \
     private:                                                            \
-        T* inst_;														\
+        T* inst_;                                                       \
         function_t f_;                                                  \
     }
 
@@ -149,7 +149,7 @@ namespace kjsd
                 f_ = me.f_;                                         \
                 return *this;                                       \
             }                                                       \
-        virtual R operator()(KJSD_DELEGATE_FPAR##num) const			\
+        virtual R operator()(KJSD_DELEGATE_FPAR##num) const         \
         {                                                           \
             return (f_ == 0) ?                                      \
                 Nop<R(KJSD_DELEGATE_TARG##num)>::                   \
@@ -157,7 +157,7 @@ namespace kjsd
                 (*f_)(KJSD_DELEGATE_FARG##num);                     \
         }                                                           \
         virtual bool operator==                                     \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const	\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const  \
         {                                                           \
             const StaticFunction<R(KJSD_DELEGATE_TARG##num)>*       \
                 func = static_cast<const StaticFunction             \
@@ -165,9 +165,9 @@ namespace kjsd
             return f_ == func->f_;                                  \
         }                                                           \
         virtual bool operator!=                                     \
-            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const	\
+            (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const  \
         {                                                           \
-			return !(operator==(fi));								\
+            return !(operator==(fi));                               \
         }                                                           \
     private:                                                        \
         function_t f_;                                              \
@@ -192,7 +192,7 @@ namespace kjsd
         Delegate<R(KJSD_DELEGATE_TARG##num)>&                           \
             operator=(const Delegate<R(KJSD_DELEGATE_TARG##num)>& d)    \
             {                                                           \
-				fp_ = d.fp_;											\
+                fp_ = d.fp_;                                            \
                 set_default();                                          \
                 return *this;                                           \
             }                                                           \
@@ -204,22 +204,22 @@ namespace kjsd
                 set_default();                                          \
                 return *this;                                           \
             }                                                           \
-        virtual R operator()(KJSD_DELEGATE_FPAR##num) const				\
+        virtual R operator()(KJSD_DELEGATE_FPAR##num) const             \
         {                                                               \
             return (*fp_)(KJSD_DELEGATE_FARG##num);                     \
         }                                                               \
         virtual bool operator==                                         \
-            (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const		\
+            (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const       \
         {                                                               \
-            return *fp_ == *(d.fp_);									\
+            return *fp_ == *(d.fp_);                                    \
         }                                                               \
         virtual bool operator!=                                         \
-            (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const		\
+            (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const       \
         {                                                               \
-            return !(operator==(d));									\
+            return !(operator==(d));                                    \
         }                                                               \
     private:                                                            \
-        SharedPtr<Function<R(KJSD_DELEGATE_TARG##num)> > fp_;			\
+        SharedPtr<Function<R(KJSD_DELEGATE_TARG##num)> > fp_;           \
         void set_default()                                              \
         {                                                               \
             if (fp_ == 0)                                               \

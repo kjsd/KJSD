@@ -35,7 +35,7 @@ namespace kjsd
         { *this = me; }
         SharedPtr& operator=(const SharedPtr& me)
         {
-			*this = me.p_;
+            *this = me.p_;
             return *this;
         }
         SharedPtr& operator=(T* p)

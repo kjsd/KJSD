@@ -41,9 +41,9 @@ namespace kjsd
         bool start();
         void join();
 
-	protected:
+    protected:
         bool is_self() const;
-		operator bool() const;
+        operator bool() const;
 
     private:
         virtual void run() = 0;
