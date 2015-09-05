@@ -1,0 +1,66 @@
+\documentclass[a4paper]{article}
+\usepackage{makeidx}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{alltt}
+\usepackage{ifpdf}
+\usepackage[dvipdfm,
+  bookmarkstype=toc=true,
+  pagebackref=true,
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue,
+  linktocpage=true,
+  bookmarks=false
+]{hyperref}
+\usepackage{pspicture}
+\usepackage{doxygen}
+\pagestyle{fancyplain}
+
+\setlength{\headheight}{5pt}
+\setlength{\headwidth}{160mm}
+\setlength{\textwidth}{160mm}
+\setlength{\textheight}{240mm}
+\setlength{\oddsidemargin}{0mm}
+\setlength{\evensidemargin}{0mm}
+\setlength{\topmargin}{0mm}
+
+\rfoot[]{\fancyplain{}{\bfseries\scriptsize \textit{Confidential}}}
+\lfoot[]{\fancyplain{}{\bfseries\scriptsize \textit{Copyright (c) 2008 K\&J Software Design, Ltd. All rights reserved.}}}
+
+\usepackage{svn}
+
+\SVNdate $Date: 2008-12-25 15:42:26 +0900 (木, 25 12 2008) $
+\SVN $LastChangedRevision: 33 $
+
+\renewcommand{\maketitle}{%
+  \begin{titlepage}%
+    \vskip 2em%
+    \begin{center}%
+      {\Large $projectname リファレンスマニュアル}\\
+      \vskip 6em%
+      rev. \SVNLastChangedRevision \\
+      \SVNDate \\
+      \vfill
+      箕浦 賢嗣 \\
+      \vskip 1em%
+      K\&Jソフトウェアデザイン \\
+    \end{center}%
+    \vskip 1.5em
+  \end{titlepage}%
+}%
+
+\renewcommand{\footrulewidth}{0.4pt}
+ \makeindex
+\setcounter{tocdepth}{3}
+
+\begin{document}
+\maketitle
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
