@@ -14,7 +14,6 @@
 #ifndef KJSD_STATE_MACHINE_HPP
 #define KJSD_STATE_MACHINE_HPP
 
-#include <map>
 #include <kjsd/singleton.hpp>
 #include <kjsd/command.hpp>
 #include <kjsd/hash_table.hpp>
