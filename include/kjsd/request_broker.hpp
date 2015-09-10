@@ -14,6 +14,8 @@
 #ifndef KJSD_REQUEST_BROKER_HPP
 #define KJSD_REQUEST_BROKER_HPP
 
+#error "Not implemented"
+
 #include "delegate.h"
 
 namespace kjsd

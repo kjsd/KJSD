@@ -5,6 +5,26 @@
  *
  * @brief
  *
+ * Usage:
+ * e.g. In case of arguments are "-a --bbb dd"
+ * @code
+ * int main(int argc, char** argv) {
+ *     Argument arg(argc, argv);
+ *     Argument::iterator it = arg.begin();
+ *     while (it == arg.end()) {
+ *         if (it.status() == Argument::SHORT)
+ *             *it; // is 'a'
+ *         else if (it.status() == Argument::LONG)
+ *             *it; // is "bbb"
+ *         else if (it.status() == Argument::SHORT)
+ *             *it; // is "c"
+ *         else if (it.status() == Argument::ARG)
+ *             it.argument(); // is "dd"
+ *         ++it;
+ *     }
+ * }
+ * @endcode
+ *
  * @author Kenji MINOURA / kenji@kandj.org
  *
  * Copyright (c) 2012 The KJSD Project. All rights reserved.

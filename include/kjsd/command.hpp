@@ -11,10 +11,10 @@
  * class Bar() { public: void func(int i){ std::cout << i << std::endl; } };
  * Foo f;
  * Bar b;
- * InstanceFunction<Foo, void(int)> f1(&f, &Foo::func);
- * InstanceFunction<Bar, void(int)> f2(&b, &Bar::func);
- * Command<void(int)> com_f1(&f1, 1);
- * Command<void(int)> com_f2(&f2, 2);
+ * Command<void(int)> com_f1(new InstanceFunction<Foo,void(int)>(&f,&Foo::func),
+ * Command<void(int)> com_f2;
+ * com_f2 = new InstanceFunction<Bar, void(int)>(&b, &Bar::func);
+ * com_f2.bind(2);
  * com_f1(); // call Foo::func(1)
  * com_f2(); // call Bar::func(2)
  * @endcode

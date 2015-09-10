@@ -109,10 +109,10 @@ namespace kjsd
             (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const      \
         {                                                               \
             const InstanceFunction<T, R(KJSD_DELEGATE_TARG##num)>*      \
-                func = static_cast<const InstanceFunction               \
+                func = dynamic_cast<const InstanceFunction              \
                 <T, R(KJSD_DELEGATE_TARG##num)>*>(&fi);                 \
-            return (inst_ == func->inst_) &&                            \
-                (f_ == func->f_);                                       \
+            return (func != 0) &&                                       \
+                ((inst_ == func->inst_) && (f_ == func->f_));           \
         }                                                               \
         virtual bool operator!=                                         \
             (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const      \
@@ -160,9 +160,9 @@ namespace kjsd
             (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const  \
         {                                                           \
             const StaticFunction<R(KJSD_DELEGATE_TARG##num)>*       \
-                func = static_cast<const StaticFunction             \
+                func = dynamic_cast<const StaticFunction            \
                 <R(KJSD_DELEGATE_TARG##num)>*>(&fi);                \
-            return f_ == func->f_;                                  \
+            return (func != 0) && (f_ == func->f_);                 \
         }                                                           \
         virtual bool operator!=                                     \
             (const Function<R(KJSD_DELEGATE_TARG##num)>& fi) const  \

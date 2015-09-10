@@ -6,6 +6,14 @@
  * @brief This file contains the definitions of serial I/O streaming
  * modules.
  *
+ * Usage:
+ * @code
+ * SerialStream sio("/dev/ttyS0");
+ * char c;
+ * sio >> c; // read char
+ * sio << c; // write char
+ * @endcode
+ *
  * @author Kenji MINOURA / kenji@kandj.org
  *
  * Copyright (c) 2012 The KJSD Project. All rights reserved.

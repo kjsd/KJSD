@@ -14,6 +14,8 @@
 #ifndef KJSD_THREAD_HPP
 #define KJSD_THREAD_HPP
 
+#error "Not implemented"
+
 #if !defined(HAVE_PTHREAD) && !defined(HAVE_WIN32)
 #error "Should be defined either HAVE_PTHREAD or HAVE_WIN32"
 #endif
