@@ -12,9 +12,9 @@
  * Delegate<void(int)> funcp;
  * Foo f;
  * Bar b;
- * funcp = new InstanceFunction<Foo, void(int)> f1(&f, &Foo::func);
+ * funcp = new InstanceFunction<Foo, void(int)>(&f, &Foo::func);
  * funcp(1); // call Foo::func
- * funcp = new InstanceFunction<Bar, void(int)> f2(&b, &Bar::func);
+ * funcp = new InstanceFunction<Bar, void(int)>(&b, &Bar::func);
  * funcp(2); // call Bar::func
  * @endcode
  *
