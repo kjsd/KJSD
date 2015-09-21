@@ -1,8 +1,6 @@
 /**
  * @file test_state_machine.cpp
  *
- * @version $Id: 1dfac53cdf1068d28f0ab483695c256624b91bf3 $
- *
  * @brief A unit test suite of StateMachine
  *
  * @author Kenji MINOURA / kenji@kandj.org
@@ -11,66 +9,16 @@
  *
  * @see <related_items>
  ***********************************************************************/
-/// このヘッダは必ずincludeする
-#include <cppunit/extensions/HelperMacros.h>
-
-#include <cassert>
 #include <iostream>
-#include <cstring>
+#include <kjsd/cunit.h>
+#include <kjsd/cutil.h>
 #include <kjsd/state_machine.hpp>
 
 using namespace std;
 using namespace kjsd;
 
-/**
- * @class TEST_StateMachine
- *
- * @brief StateMachineクラスのユニットテストスイート
- *
- * @see StateMachine
- */
-// CppUnit::TestFixtureを継承させる
-class TEST_StateMachine : public CppUnit::TestFixture
+namespace test_state_machine_ns
 {
-    //---> ここからフレームワークのお約束事
-
-    /// テストスイート宣言開始マクロ．このクラス名を指定する．
-    CPPUNIT_TEST_SUITE(TEST_StateMachine);
-
-    /// 以下テストケース宣言マクロ．テスト実行時にはこの順番で呼ばれる．
-    /// あるテストケースで別機能を使う必要がある場合が考えられるから，
-    /// 単体で完結する機能からテストされる順番になるよう注意する．
-    CPPUNIT_TEST(test_start);
-    CPPUNIT_TEST(test_change_state);
-    CPPUNIT_TEST(test_fire);
-    CPPUNIT_TEST(test_active);
-    CPPUNIT_TEST(test_passive);
-
-    /// テストスイート宣言終了マクロ
-    CPPUNIT_TEST_SUITE_END();
-
-public:
-    /**
-     * @brief 各テストケース実行前に呼ばれるコールバック．
-     * 通常テストケースに共通して必要なリソースを全て確保する．
-     */
-    void setUp();
-
-    /**
-     * @brief 各テストケース終了後に呼ばれるコールバック．
-     * テストケースが互いに影響し合わないようにするため，setUp()で確保した
-     * テスト用リソースを全て開放しておく．
-     */
-    void tearDown();
-
-protected:
-    //<--- ここまでフレームワークのお約束事．
-    // あとはクラス宣言後にもうひとつ(CPPUNIT_TEST_SUITE_REGISTRATION)すれば
-    // お約束事は終了．
-
-    // 以下は実際のテストケース宣言．テスト対象によって大きく変わる部分．
-    // 上のCPPUNIT_TEST()で登録したメソッドは全てここで宣言する．
-
     enum Event
     {
         event0,
@@ -115,26 +63,18 @@ protected:
         static bool true_() { return true; }
         static bool false_() { return true; }
     };
+}
 
-    Context* ctxt_;
-    void test_start();
-    void test_change_state();
-    void test_fire();
-    void test_active();
-    void test_passive();
-};
+using namespace test_state_machine_ns;
 
-/// このテストスイートをCppUnitへ登録
-CPPUNIT_TEST_SUITE_REGISTRATION(TEST_StateMachine);
+static Context* ctxt_;
 
-void TEST_StateMachine::setUp()
+static void setUp()
 {
-    cout << endl;
-
     ctxt_ = new Context();
 }
 
-void TEST_StateMachine::tearDown()
+static void tearDown()
 {
     Context::State0::instance()->clear();
     Context::State1::instance()->clear();
@@ -142,21 +82,23 @@ void TEST_StateMachine::tearDown()
     ctxt_ = 0;
 }
 
-void TEST_StateMachine::test_start()
+static const char* test_start()
 {
-    CPPUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
+    return 0;
 }
 
-void TEST_StateMachine::test_change_state()
+static const char* test_change_state()
 {
     Context::State0::instance()->transitions[event0] =
         Context::transition_type(Context::End::instance());
 
     ctxt_->fire(event0);
-    CPPUNIT_ASSERT(ctxt_->current() == Context::End::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::End::instance());
+    return 0;
 }
 
-void TEST_StateMachine::test_fire()
+static const char* test_fire()
 {
     struct lambda
     {
@@ -171,7 +113,7 @@ void TEST_StateMachine::test_fire()
             new StaticFunction<bool()>(lambda::false_));
 
     ctxt_->fire(event1);
-    CPPUNIT_ASSERT(ctxt_->i_ == 0);
+    KJSD_CUNIT_ASSERT(ctxt_->i_ == 0);
 
     Context::State0::instance()->transitions[event2] =
         Context::transition_type(
@@ -180,10 +122,11 @@ void TEST_StateMachine::test_fire()
             new StaticFunction<bool()>(lambda::true_));
 
     ctxt_->fire(event2);
-    CPPUNIT_ASSERT(ctxt_->i_ == 100);
+    KJSD_CUNIT_ASSERT(ctxt_->i_ == 100);
+    return 0;
 }
 
-void TEST_StateMachine::test_active()
+static const char* test_active()
 {
     Context::State1::instance()->entry =
         new InstanceFunction<Context, void()>(ctxt_, &Context::entry);
@@ -197,11 +140,12 @@ void TEST_StateMachine::test_active()
 
     ctxt_->fire(event1);
     ctxt_->fire(event2);
-    CPPUNIT_ASSERT(ctxt_->i_ == 2);
-    CPPUNIT_ASSERT(ctxt_->current() == Context::End::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->i_ == 2);
+    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::End::instance());
+    return 0;
 }
 
-void TEST_StateMachine::test_passive()
+static const char* test_passive()
 {
     Context::State1::instance()->entry =
         new InstanceFunction<Context, void()>(ctxt_, &Context::entry);
@@ -214,6 +158,26 @@ void TEST_StateMachine::test_passive()
         Context::transition_type(Context::State1::instance());
 
     ctxt_->fire(event3);
-    CPPUNIT_ASSERT(ctxt_->i_ == 0);
-    CPPUNIT_ASSERT(ctxt_->current() == Context::State1::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->i_ == 0);
+    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State1::instance());
+    return 0;
+}
+
+const char* test_state_machine()
+{
+    const KJSD_CUNIT_Func f[] = {
+        test_start,
+        test_change_state,
+        test_fire,
+        test_active,
+        test_passive
+    };
+
+    for (int i = 0; i < KJSD_CUTIL_SIZEOFA(f); i++)
+    {
+        setUp();
+        KJSD_CUNIT_RUN(f[i]);
+        tearDown();
+    }
+    return 0;
 }

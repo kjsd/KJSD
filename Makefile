@@ -84,7 +84,7 @@ EXT_INCDIR_TEST = ./include
 
 # The Compiler shall use EXT_LIB as a library (-l)
 EXT_LIB =
-EXT_LIB_TEST = $(TARGET_NAME) cppunit
+EXT_LIB_TEST = $(TARGET_NAME)
 
 ifneq (,$(findstring KJSD_HAVE_POSIX_REALTIME_EXTENSION, $(DEFINES)))
 EXT_LIB += rt

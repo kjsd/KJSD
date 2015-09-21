@@ -1,8 +1,6 @@
 /**
  * @file testmain.cpp
  *
- * @version $Id: 0812c38b0e71bae7677160f9b0640810abc45bb9 $
- *
  * @brief A main program for all test suits
  *
  * @author Kenji MINOURA / kenji@kandj.org
@@ -11,35 +9,42 @@
  *
  * @see <related_items>
  ***********************************************************************/
-#include <cppunit/BriefTestProgressListener.h>
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/TestResult.h>
-#include <cppunit/TestResultCollector.h>
-#include <cppunit/TestRunner.h>
+#include <iostream>
+#include <kjsd/cunit.h>
 
+using namespace std;
+
+int KJSD_CUNIT_run_count = 0;
+
+extern const char* test_argument();
+extern const char* test_hashtable();
+extern const char* test_command();
+extern const char* test_delegate();
+extern const char* test_json();
+extern const char* test_shared_ptr();
+extern const char* test_singleton();
+extern const char* test_state_machine();
+extern const char* test_util();
+
+static void print(const char* msg, const char* name)
+{
+    if (msg) cout << msg << endl;
+    else cout << name << ": OK." << endl;
+}
+
+#define RUN(f) print((f)(), #f)
 
 int main(int argc, char* argv[])
 {
-  // イベント・マネージャとテスト・コントローラを生成する
-  CppUnit::TestResult controller;
+    RUN(test_argument);
+    RUN(test_singleton);
+    RUN(test_shared_ptr);
+    RUN(test_hashtable);
+    RUN(test_delegate);
+    RUN(test_command);
+    RUN(test_json);
+    RUN(test_state_machine);
 
-  // テスト結果収集リスナをコントローラにアタッチする
-  CppUnit::TestResultCollector result;
-  controller.addListener( &result );
-
-  // 「.」で進行状況を出力するリスナをアタッチする
-  CppUnit::BriefTestProgressListener progress;
-  controller.addListener( &progress );
-
-  // テスト・ランナーにテスト群を与え、テストする
-  CppUnit::TestRunner runner;
-  runner.addTest( CppUnit::TestFactoryRegistry::getRegistry().makeTest() );
-  runner.run( controller );
-
-  // テスト結果を標準出力に吐き出す
-  CppUnit::CompilerOutputter outputter( &result, CppUnit::stdCOut() );
-  outputter.write();
-
-  return result.wasSuccessful() ? 0 : 1;
+    cout << "Test finished[" << KJSD_CUNIT_run_count << "]" << endl;
+    return 0;
 }
