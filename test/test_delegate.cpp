@@ -277,7 +277,7 @@ const char* test_delegate()
         test_sta_exec
     };
 
-    for (int i = 0; i < KJSD_CUTIL_LENGTH(f); i++)
+    for (int i = 0; i < KJSD_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);

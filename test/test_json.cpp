@@ -836,7 +836,7 @@ const char* test_json()
         test_serializeS
     };
 
-    for (int i = 0; i < KJSD_CUTIL_LENGTH(f); i++)
+    for (int i = 0; i < KJSD_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);

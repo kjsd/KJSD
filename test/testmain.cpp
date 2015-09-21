@@ -29,7 +29,7 @@ extern const char* test_util();
 static void print(const char* msg, const char* name)
 {
     if (msg) cout << msg << endl;
-    else cout << name << ": OK." << endl;
+    else cout << "=== " << name << ": OK. ===" << endl;
 }
 
 #define RUN(f) print((f)(), #f)

@@ -23,23 +23,23 @@ static const char* test_sleep();
 static const char* test_sleep()
 {
     cout << "sleep 11ms..." << flush;
-    KJSD_CUTIL_MSLEEP(11);
+    KJSD_MSLEEP(11);
     cout << "done." << endl;
 
     cout << "sleep 111ms..." << flush;
-    KJSD_CUTIL_MSLEEP(111);
+    KJSD_MSLEEP(111);
     cout << "done." << endl;
 
     cout << "sleep 1111ms..." << flush;
-    KJSD_CUTIL_MSLEEP(1111);
+    KJSD_MSLEEP(1111);
     cout << "done." << endl;
 
     cout << "sleep 5111ms..." << flush;
-    KJSD_CUTIL_MSLEEP(5111);
+    KJSD_MSLEEP(5111);
     cout << "done." << endl;
 
     cout << "sleep 11111ms..." << flush;
-    KJSD_CUTIL_MSLEEP(11111);
+    KJSD_MSLEEP(11111);
     cout << "done." << endl;
 
     return 0;

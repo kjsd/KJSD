@@ -150,7 +150,7 @@ namespace kjsd
                 dst_list.pop_back();
             }
 
-            KJSD_CUTIL_DPRINTF("%s -> %s\n", current_->name(), next->name());
+            KJSD_DPRINTF("%s -> %s\n", current_->name(), next->name());
             current_ = next;
         }
     private:
