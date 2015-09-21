@@ -22,7 +22,7 @@ extern "C" {
 #define KJSD_CUNIT__(x) KJSD_CUNIT___(x)
 #define KJSD_CUNIT___(x) #x
 
-#define KJSD_CUNIT_MSG(msg) "***Error: " msg "[" __FILE__ "," KJSD_CUNIT_L "]"
+#define KJSD_CUNIT_MSG(msg) "*** Error: " msg "[" __FILE__ "," KJSD_CUNIT_L "]"
 
 /** 
  * @brief テスト関数型

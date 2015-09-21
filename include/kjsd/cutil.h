@@ -41,7 +41,7 @@ extern "C" {
 #define KJSD_ASSERT(x)                                                  \
     do {                                                                \
         if (!(x)) {                                                     \
-            printf("Assertion false at %s:%d\n", __FILE__, __LINE__);   \
+            printf("*** Assertion false at %s:%d\n", __FILE__, __LINE__); \
             abort();                                                    \
         }                                                               \
     } while (0)
@@ -56,26 +56,26 @@ extern "C" {
     } while (0)
 
 #define KJSD_ASSERT_MSG(x, ...)                                         \
-        do {                                                            \
-            if (!(x)) {                                                 \
-                printf("Assertion false at %s:%d: ", __FILE__, __LINE__); \
-                printf(__VA_ARGS__);                                    \
-                abort();                                                \
-            }                                                           \
-        } while (0)
+    do {                                                                \
+        if (!(x)) {                                                     \
+            printf("*** Assertion false at %s:%d: ", __FILE__, __LINE__); \
+            printf(__VA_ARGS__);                                        \
+            abort();                                                    \
+        }                                                               \
+    } while (0)
 
 #else
 
-#define KJSD_DPRINTF(msg)                           \
-        do {                                        \
-            printf("[%s:%d] ", __FILE__, __LINE__); \
-            printf msg;                             \
-        } while (0)
+#define KJSD_DPRINTF(msg)                       \
+    do {                                        \
+        printf("[%s:%d] ", __FILE__, __LINE__); \
+        printf msg;                             \
+    } while (0)
 
 #define KJSD_ASSERT_MSG(x, msg)                                         \
         do {                                                            \
             if (!(x)) {                                                 \
-                printf("Assertion false at %s:%d: ", __FILE__, __LINE__); \
+                printf("*** Assertion false at %s:%d: ", __FILE__, __LINE__); \
                 printf msg;                                             \
                 abort();                                                \
             }                                                           \

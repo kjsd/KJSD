@@ -26,13 +26,15 @@ extern const char* test_singleton();
 extern const char* test_state_machine();
 extern const char* test_util();
 
-static void print(const char* msg, const char* name)
+static void print(KJSD_CUNIT_Func f, const char* name)
 {
+    cout << name << ": Start >>>" << endl;
+    const char* msg = f();
     if (msg) cout << msg << endl;
-    else cout << "=== " << name << ": OK. ===" << endl;
+    else cout << "<<< " << name << ": OK." << endl;
 }
 
-#define RUN(f) print((f)(), #f)
+#define RUN(f) print(f, #f)
 
 int main(int argc, char* argv[])
 {
