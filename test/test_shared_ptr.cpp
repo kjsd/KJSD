@@ -129,7 +129,7 @@ const char* test_shared_ptr()
         test_compare
     };
 
-    for (int i = 0; i < KJSD_CUTIL_SIZEOFA(f); i++)
+    for (int i = 0; i < KJSD_CUTIL_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);

@@ -117,9 +117,9 @@ static void setUp()
 
 static const char* test_nop()
 {
-	d0_();
+    d0_();
     Delegate<void()> d0;
-	d0();
+    d0();
     return 0;
 }
 
@@ -277,7 +277,7 @@ const char* test_delegate()
         test_sta_exec
     };
 
-    for (int i = 0; i < KJSD_CUTIL_SIZEOFA(f); i++)
+    for (int i = 0; i < KJSD_CUTIL_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);

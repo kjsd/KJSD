@@ -91,7 +91,7 @@ extern "C" {
  *
  * @return 配列の要素数
  */
-#define KJSD_CUTIL_SIZEOFA(x) (sizeof(x)/sizeof(x[0]))
+#define KJSD_CUTIL_LENGTH(x) (sizeof(x)/sizeof(x[0]))
 
 /**
  * @brief 構造体メンバの要素へのオフセットを取得

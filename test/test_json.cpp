@@ -756,7 +756,7 @@ static const char* test_serialize()
 {
     static const char* json_str = "[{},[],\"str\",1,true]";
 
-	cout << endl;
+    cout << endl;
 
     root_ = KJSD_JSON_deserializeS(json_str);
     KJSD_CUNIT_ASSERT(root_ != 0);
@@ -766,7 +766,7 @@ static const char* test_serialize()
 
     KJSD_CUNIT_ASSERT(KJSD_JSON_serialize(root_, stdout) == strlen(json_str));
 
-	cout << endl;
+    cout << endl;
     return 0;
 }
 
@@ -836,7 +836,7 @@ const char* test_json()
         test_serializeS
     };
 
-    for (int i = 0; i < KJSD_CUTIL_SIZEOFA(f); i++)
+    for (int i = 0; i < KJSD_CUTIL_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);
