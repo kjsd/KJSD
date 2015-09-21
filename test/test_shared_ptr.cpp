@@ -30,9 +30,9 @@ static int* int_p1_;
 
 static void setUp()
 {
-	int_p1_ = new int(1);
+    int_p1_ = new int(1);
 
-	cout << "int_p1_: " << reinterpret_cast<size_t>(int_p1_) << endl;
+    cout << "int_p1_: " << reinterpret_cast<size_t>(int_p1_) << endl;
 }
 
 static void tearDown()
@@ -41,10 +41,10 @@ static void tearDown()
 
 static const char* test_use_count()
 {
-	SharedPtr<int> p1(int_p1_);
+    SharedPtr<int> p1(int_p1_);
     KJSD_CUNIT_ASSERT(p1.use_count() == 1);
 
-	SharedPtr<int> p11(int_p1_);
+    SharedPtr<int> p11(int_p1_);
     KJSD_CUNIT_ASSERT(p1.use_count() == 2);
     KJSD_CUNIT_ASSERT(p11.use_count() == 2);
     return 0;
@@ -52,68 +52,68 @@ static const char* test_use_count()
 
 static const char* test_astah()
 {
-	SharedPtr<int> p1(int_p1_);
+    SharedPtr<int> p1(int_p1_);
     KJSD_CUNIT_ASSERT(*p1 == 1);
 
-	*p1 = 2;
+    *p1 = 2;
     KJSD_CUNIT_ASSERT(*p1 == 2);
     return 0;
 }
 
 static const char* test_new()
 {
-	SharedPtr<int> p1(int_p1_);
+    SharedPtr<int> p1(int_p1_);
     KJSD_CUNIT_ASSERT(*p1 == 1);
 
-	SharedPtr<int> p = new int(3);
+    SharedPtr<int> p = new int(3);
     KJSD_CUNIT_ASSERT(*p == 3);
 
-	SharedPtr<int> pp = p1;
+    SharedPtr<int> pp = p1;
     KJSD_CUNIT_ASSERT(*pp == 1);
     return 0;
 }
 
 static const char* test_copy()
 {
-	SharedPtr<int> p1(int_p1_);
+    SharedPtr<int> p1(int_p1_);
     KJSD_CUNIT_ASSERT(*p1 == 1);
-	SharedPtr<int> p(new int(3));
+    SharedPtr<int> p(new int(3));
     KJSD_CUNIT_ASSERT(*p == 3);
 
-	p1 = p;
+    p1 = p;
     KJSD_CUNIT_ASSERT(p1.use_count() == 2);
     KJSD_CUNIT_ASSERT(*p1 == 3);
     KJSD_CUNIT_ASSERT(p.use_count() == 2);
     KJSD_CUNIT_ASSERT(*p == 3);
 
-	p1 = new int(1);
+    p1 = new int(1);
     KJSD_CUNIT_ASSERT(*p1 == 1);
 
-	p1 = int_p1_;
+    p1 = int_p1_;
     KJSD_CUNIT_ASSERT(*p1 == 1);
     return 0;
 }
 
 static const char* test_member()
 {
-	SharedPtr<Foo> p = new Foo();
-	p->f_ = 3;
+    SharedPtr<Foo> p = new Foo();
+    p->f_ = 3;
     KJSD_CUNIT_ASSERT(p->f_ == 3);
     KJSD_CUNIT_ASSERT((*p).f_ == 3);
 
-	delete int_p1_;
+    delete int_p1_;
     return 0;
 }
 
 static const char* test_compare()
 {
-	SharedPtr<int> p;
-	SharedPtr<int> p1(int_p1_);
+    SharedPtr<int> p;
+    SharedPtr<int> p1(int_p1_);
 
     KJSD_CUNIT_ASSERT(p == 0);
     KJSD_CUNIT_ASSERT(p != p1);
 
-	p = p1;
+    p = p1;
     KJSD_CUNIT_ASSERT(p == p1);
     return 0;
 }
