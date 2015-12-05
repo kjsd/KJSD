@@ -32,7 +32,7 @@ static void setUp()
 {
     int_p1_ = new int(1);
 
-    cout << "int_p1_: " << reinterpret_cast<size_t>(int_p1_) << endl;
+    cout << "new int_p1_: " << reinterpret_cast<size_t>(int_p1_) << endl;
 }
 
 static void tearDown()
@@ -47,16 +47,8 @@ static const char* test_use_count()
     SharedPtr<int> p11(int_p1_);
     KJSD_CUNIT_ASSERT(p1.use_count() == 2);
     KJSD_CUNIT_ASSERT(p11.use_count() == 2);
-    return 0;
-}
 
-static const char* test_astah()
-{
-    SharedPtr<int> p1(int_p1_);
-    KJSD_CUNIT_ASSERT(*p1 == 1);
-
-    *p1 = 2;
-    KJSD_CUNIT_ASSERT(*p1 == 2);
+    cout << "1 destructor will run..." << endl;
     return 0;
 }
 
@@ -70,6 +62,8 @@ static const char* test_new()
 
     SharedPtr<int> pp = p1;
     KJSD_CUNIT_ASSERT(*pp == 1);
+
+    cout << "2 destructor will run..." << endl;
     return 0;
 }
 
@@ -80,17 +74,32 @@ static const char* test_copy()
     SharedPtr<int> p(new int(3));
     KJSD_CUNIT_ASSERT(*p == 3);
 
+    cout << "int_p1_ will delete: " << reinterpret_cast<size_t>(int_p1_) << endl;
     p1 = p;
+
     KJSD_CUNIT_ASSERT(p1.use_count() == 2);
     KJSD_CUNIT_ASSERT(*p1 == 3);
     KJSD_CUNIT_ASSERT(p.use_count() == 2);
     KJSD_CUNIT_ASSERT(*p == 3);
 
-    p1 = new int(1);
+    p1 = new int(2);
+    KJSD_CUNIT_ASSERT(p1.use_count() == 1);
+    KJSD_CUNIT_ASSERT(*p1 == 2);
+    KJSD_CUNIT_ASSERT(p.use_count() == 1);
+
+    cout << "2 destructor will run..." << endl;
+    return 0;
+}
+
+static const char* test_astah()
+{
+    SharedPtr<int> p1(int_p1_);
     KJSD_CUNIT_ASSERT(*p1 == 1);
 
-    p1 = int_p1_;
-    KJSD_CUNIT_ASSERT(*p1 == 1);
+    *p1 = 2;
+    KJSD_CUNIT_ASSERT(*p1 == 2);
+
+    cout << "1 destructor will run..." << endl;
     return 0;
 }
 
@@ -102,6 +111,8 @@ static const char* test_member()
     KJSD_CUNIT_ASSERT((*p).f_ == 3);
 
     delete int_p1_;
+
+    cout << "1 destructor will run..." << endl;
     return 0;
 }
 
@@ -115,6 +126,8 @@ static const char* test_compare()
 
     p = p1;
     KJSD_CUNIT_ASSERT(p == p1);
+
+    cout << "1 destructor will run..." << endl;
     return 0;
 }
 
