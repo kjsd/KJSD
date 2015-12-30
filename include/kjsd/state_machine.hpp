@@ -21,33 +21,37 @@
 
 namespace kjsd
 {
+    template<typename E, typename HT, typename AT>
+    class State;
+
+    template<typename E, typename HT = void(), typename AT = HT>
+    class Transition
+    {
+    public:
+        State<E, HT, AT>* next;
+        Command<AT> action;
+        Delegate<bool()> guard;
+        Transition(State<E, HT, AT>* n = 0,
+                   Command<AT> act = 0,
+                   Delegate<bool()> gd = new StaticFunction<bool()>(
+                       &Transition::always_true)) :
+            next(n), action(act), guard(gd)
+        {}
+
+    private:
+        static bool always_true() { return true; }
+    };
+
     template<typename E, typename HT = void(), typename AT = HT>
     class State
     {
     public:
-        class Transition
-        {
-        public:
-            State<E,HT,AT>* next;
-            Command<AT> action;
-            Delegate<bool()> guard;
-            Transition(State<E,HT,AT>* n = 0,
-                       Command<AT> act = 0,
-                       Delegate<bool()> gd = new StaticFunction<bool()>(
-                           &Transition::always_true)) :
-                next(n), action(act), guard(gd)
-            {}
-
-        private:
-            static bool always_true() { return true; }
-        };
-
         virtual const char* name() const = 0;
         virtual State<E>* parent() const = 0;
 
         Command<HT> entry;
         Command<HT> exit;
-        HashTable<E, Transition> transitions;
+        HashTable<E, Transition<E, HT, AT> > transitions;
 
         State(Command<HT> ent = 0, Command<HT> ext = 0) :
             entry(ent), exit(ext)
@@ -70,7 +74,7 @@ namespace kjsd
     {
     public:
         typedef State<E,HT,AT> state_type;
-        typedef typename state_type::Transition transition_type;
+        typedef Transition<E, HT, AT> transition_type;
 
         class Start: public state_type,
                      public Singleton<Start>
@@ -111,6 +115,7 @@ namespace kjsd
             }
         }
         state_type* const current() const { return current_; }
+
     protected:
         void change_state(state_type* next)
         {
@@ -153,6 +158,7 @@ namespace kjsd
             KJSD_DPRINTF("%s -> %s\n", current_->name(), next->name());
             current_ = next;
         }
+
     private:
         state_type* current_;
     };

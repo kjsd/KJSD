@@ -27,31 +27,32 @@ namespace test_state_machine_ns
         event3
     };
         
+    class State0 : public State<Event>,
+                   public Singleton<State0>
+    {
+    public:
+        const char* name() const { return "State0"; }
+        State<Event>* parent() const { return 0; }
+    private:
+        friend class Singleton<State0>;
+        State0() {}
+        ~State0() {}
+    };
+    class State1 : public State<Event>,
+                   public Singleton<State1>
+    {
+    public:
+        const char* name() const { return "State1"; }
+        State<Event>* parent() const { return 0; }
+    private:
+        friend class Singleton<State1>;
+        State1() {}
+        ~State1() {}
+    };
+
     class Context : public StateMachine<Event>
     {
     public:
-        class State0 : public State<Event>,
-                       public Singleton<State0>
-        {
-        public:
-            const char* name() const { return "State0"; }
-            State<Event>* parent() const { return 0; }
-        private:
-            friend class Singleton<State0>;
-            State0() {}
-            ~State0() {}
-        };
-        class State1 : public State<Event>,
-                       public Singleton<State1>
-        {
-        public:
-            const char* name() const { return "State1"; }
-            State<Event>* parent() const { return 0; }
-        private:
-            friend class Singleton<State1>;
-            State1() {}
-            ~State1() {}
-        };
         Context() : i_(0)
         {
             change_state(State0::instance());
@@ -76,24 +77,24 @@ static void setUp()
 
 static void tearDown()
 {
-    Context::State0::instance()->clear();
-    Context::State1::instance()->clear();
+    State0::instance()->clear();
+    State1::instance()->clear();
     delete ctxt_;
     ctxt_ = 0;
 }
 
 static const char* test_current()
 {
-    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->current() == State0::instance());
     Context::state_type* st = ctxt_->current();
-    st = Context::State1::instance();
-    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
+    st = State1::instance();
+    KJSD_CUNIT_ASSERT(ctxt_->current() == State0::instance());
     return 0;
 }
 
 static const char* test_change_state()
 {
-    Context::State0::instance()->transitions[event0] =
+    State0::instance()->transitions[event0] =
         Context::transition_type(Context::End::instance());
 
     ctxt_->fire(event0);
@@ -109,7 +110,7 @@ static const char* test_fire()
         static bool false_() { return false; }
     };
 
-    Context::State0::instance()->transitions[event1] =
+    State0::instance()->transitions[event1] =
         Context::transition_type(
             0,
             new InstanceFunction<Context, void()>(ctxt_, &Context::action),
@@ -118,7 +119,7 @@ static const char* test_fire()
     ctxt_->fire(event1);
     KJSD_CUNIT_ASSERT(ctxt_->i_ == 0);
 
-    Context::State0::instance()->transitions[event2] =
+    State0::instance()->transitions[event2] =
         Context::transition_type(
             0,
             new InstanceFunction<Context, void()>(ctxt_, &Context::action),
@@ -131,14 +132,14 @@ static const char* test_fire()
 
 static const char* test_active()
 {
-    Context::State1::instance()->entry =
+    State1::instance()->entry =
         new InstanceFunction<Context, void()>(ctxt_, &Context::entry);
-    Context::State1::instance()->exit =
+    State1::instance()->exit =
         new InstanceFunction<Context, void()>(ctxt_, &Context::exit);
 
-    Context::State0::instance()->transitions[event1] =
-        Context::transition_type(Context::State1::instance());
-    Context::State1::instance()->transitions[event2] =
+    State0::instance()->transitions[event1] =
+        Context::transition_type(State1::instance());
+    State1::instance()->transitions[event2] =
         Context::transition_type(Context::End::instance());
 
     ctxt_->fire(event1);
@@ -150,19 +151,19 @@ static const char* test_active()
 
 static const char* test_passive()
 {
-    Context::State1::instance()->entry =
+    State1::instance()->entry =
         new InstanceFunction<Context, void()>(ctxt_, &Context::entry);
-    Context::State1::instance()->exit =
+    State1::instance()->exit =
         new InstanceFunction<Context, void()>(ctxt_, &Context::exit);
 
-    Context::State1::instance()->clear();
+    State1::instance()->clear();
 
-    Context::State0::instance()->transitions[event3] =
-        Context::transition_type(Context::State1::instance());
+    State0::instance()->transitions[event3] =
+        Context::transition_type(State1::instance());
 
     ctxt_->fire(event3);
     KJSD_CUNIT_ASSERT(ctxt_->i_ == 0);
-    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State1::instance());
+    KJSD_CUNIT_ASSERT(ctxt_->current() == State1::instance());
     return 0;
 }
 
