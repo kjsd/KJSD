@@ -110,7 +110,7 @@ namespace kjsd
                 change_state(s->transitions[e].next);
             }
         }
-        state_type* current() const { return current_; }
+        state_type* const current() const { return current_; }
     protected:
         void change_state(state_type* next)
         {

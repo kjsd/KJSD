@@ -82,8 +82,11 @@ static void tearDown()
     ctxt_ = 0;
 }
 
-static const char* test_start()
+static const char* test_current()
 {
+    KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
+    Context::state_type* st = ctxt_->current();
+    st = Context::State1::instance();
     KJSD_CUNIT_ASSERT(ctxt_->current() == Context::State0::instance());
     return 0;
 }
@@ -166,7 +169,7 @@ static const char* test_passive()
 const char* test_state_machine()
 {
     const KJSD_CUNIT_Func f[] = {
-        test_start,
+        test_current,
         test_change_state,
         test_fire,
         test_active,
