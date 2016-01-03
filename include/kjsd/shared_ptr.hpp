@@ -98,6 +98,7 @@ namespace kjsd
             if (--ref_cnt_[p] == 0)
             {
                 ref_cnt_.erase(p);
+                KJSD_DPRINTF("delete %ld\n", reinterpret_cast<size_t>(p));
                 delete p;
             }
         }
