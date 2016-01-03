@@ -13,6 +13,7 @@
 #ifndef KJSD_SHARED_PTR_HPP
 #define KJSD_SHARED_PTR_HPP
 
+#include <cassert>
 #include <kjsd/hash_table.hpp>
 #include <kjsd/cutil.h>
 
@@ -31,7 +32,7 @@ namespace kjsd
         {
             delete_if_nocnt(p_);
         }
-        SharedPtr(const SharedPtr& me)
+        SharedPtr(const SharedPtr& me) : p_(0)
         { *this = me; }
         SharedPtr& operator=(const SharedPtr& me)
         {
@@ -90,12 +91,13 @@ namespace kjsd
 
         void delete_if_nocnt(T* p)
         {
-            if (p_ == 0) return;
+            if (p == 0) return;
+            assert(ref_cnt_.count(p) != 0);
+            assert(ref_cnt_[p] > 0);
 
             if (--ref_cnt_[p] == 0)
             {
                 ref_cnt_.erase(p);
-                KJSD_DPRINTF("delete %ld\n", reinterpret_cast<size_t>(p));
                 delete p;
             }
         }

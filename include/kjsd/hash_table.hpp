@@ -148,8 +148,6 @@ namespace kjsd
                 ht_->buckets_[ht_->bucket_count() - 1].end();
 
             if (idx_ >= ht_->bucket_count()) return *this;
-            if (lit_ == last_it) return *this;
-            
             if (++lit_ != ht_->buckets_[idx_].end()) return *this;
 
             for (++idx_; idx_ < ht_->bucket_count(); ++idx_)
@@ -157,11 +155,11 @@ namespace kjsd
                 if (!ht_->buckets_[idx_].empty())
                 {
                     lit_ = ht_->buckets_[idx_].begin();
-                    break;
+                    return *this;
                 }
-                lit_ = last_it;
             }
 
+            lit_ = last_it;
             return *this;
         }
         HashTableIterator operator++(int)
@@ -392,6 +390,7 @@ namespace kjsd
         const iterator find(const K& k) const
         {
             kjsd::hash_type idx = bucket(k);
+            assert((idx >= 0) && (idx < bkt_cnt_));
 
             for (local_iterator it = buckets_[idx].begin();
                  it != buckets_[idx].end(); ++it)
