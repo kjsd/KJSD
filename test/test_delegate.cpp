@@ -118,6 +118,9 @@ static void setUp()
 static const char* test_nop()
 {
     d0_();
+    KJSD_CUNIT_ASSERT(d1_(1) == 0);
+    KJSD_CUNIT_ASSERT(d2_(1, 2) == 0);
+    KJSD_CUNIT_ASSERT(d3_(1, 2, 3) == 0);
     Delegate<void()> d0;
     d0();
     return 0;

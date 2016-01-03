@@ -52,6 +52,12 @@
 
 namespace kjsd
 {
+    template<typename R>
+    struct Nop
+    {
+        static R f() { return R(); }
+    };
+
     /**
      * @brief 関数オブジェクトインタフェース
      *
@@ -100,9 +106,8 @@ namespace kjsd
         }                                                               \
         virtual R operator()(KJSD_DELEGATE_FPAR##num) const             \
         {                                                               \
-            return (inst_ == 0) ?                                       \
-                Nop<R(KJSD_DELEGATE_TARG##num)>::                       \
-                f(KJSD_DELEGATE_FARG##num):                             \
+            return ((inst_ == 0) || (f_ == 0)) ?                        \
+                Nop<R>::f():                                            \
                 (inst_->*f_)(KJSD_DELEGATE_FARG##num);                  \
         }                                                               \
         virtual bool operator==                                         \
@@ -152,8 +157,7 @@ namespace kjsd
         virtual R operator()(KJSD_DELEGATE_FPAR##num) const         \
         {                                                           \
             return (f_ == 0) ?                                      \
-                Nop<R(KJSD_DELEGATE_TARG##num)>::                   \
-                f(KJSD_DELEGATE_FARG##num):                         \
+                Nop<R>::f():                                        \
                 (*f_)(KJSD_DELEGATE_FARG##num);                     \
         }                                                           \
         virtual bool operator==                                     \
@@ -229,18 +233,6 @@ namespace kjsd
         }                                                               \
     }
 
-    template<typename Sig> struct Nop;
-#define KJSD_NOP_DEF(num)                                               \
-    template<KJSD_DELEGATE_TPAR##num>                                   \
-    struct Nop<R(KJSD_DELEGATE_TARG##num)>                              \
-    {                                                                   \
-        static R f(KJSD_DELEGATE_FPAR##num) {}                          \
-    };                                                                  \
-
-    KJSD_NOP_DEF(0);
-    KJSD_NOP_DEF(1);
-    KJSD_NOP_DEF(2);
-    KJSD_NOP_DEF(3);
     KJSD_FUNCTION_DEF(0);
     KJSD_FUNCTION_DEF(1);
     KJSD_FUNCTION_DEF(2);
