@@ -142,7 +142,7 @@ const char* test_shared_ptr()
         test_compare
     };
 
-    for (int i = 0; i < KJSD_LENGTH(f); i++)
+    for (size_t i = 0; i < KJSD_LENGTH(f); i++)
     {
         setUp();
         KJSD_CUNIT_RUN(f[i]);

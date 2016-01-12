@@ -102,21 +102,13 @@ using namespace test_delegate_ns;
 static Foo f_;
 static Bar b_;
 
-static Delegate<void()> d0_;
-static Delegate<int(int)> d1_;
-static Delegate<int(int, int)> d2_;
-static Delegate<int(int, int, int)> d3_;
-
-static void setUp()
-{
-    d0_ = 0;
-    d1_ = 0;
-    d2_ = 0;
-    d3_ = 0;
-}
-
 static const char* test_nop()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     d0_();
     KJSD_CUNIT_ASSERT(d1_(1) == 0);
     KJSD_CUNIT_ASSERT(d2_(1, 2) == 0);
@@ -128,6 +120,11 @@ static const char* test_nop()
 
 static const char* test_ins_opEq()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     Delegate<void()> d0;
     Delegate<int(int)> d1;
     Delegate<int(int, int)> d2;
@@ -157,6 +154,11 @@ static const char* test_ins_opEq()
 
 static const char* test_sta_opEq()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     Delegate<void()> d0;
     Delegate<int(int)> d1;
     Delegate<int(int, int)> d2;
@@ -186,6 +188,11 @@ static const char* test_sta_opEq()
 
 static const char* test_ins_opNeq()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     Delegate<void()> d0;
     Delegate<int(int)> d1;
     Delegate<int(int, int)> d2;
@@ -207,6 +214,11 @@ static const char* test_ins_opNeq()
 
 static const char* test_sta_opNeq()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     Delegate<void()> d0;
     Delegate<int(int)> d1;
     Delegate<int(int, int)> d2;
@@ -228,6 +240,11 @@ static const char* test_sta_opNeq()
 
 static const char* test_ins_exec()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     d0_();
 
     d0_ = new InstanceFunction<Foo, void()>(&f_, &Foo::arg0);
@@ -254,6 +271,11 @@ static const char* test_ins_exec()
 
 static const char* test_sta_exec()
 {
+    Delegate<void()> d0_ = 0;
+    Delegate<int(int)> d1_ = 0;
+    Delegate<int(int, int)> d2_ = 0;
+    Delegate<int(int, int, int)> d3_ = 0;
+
     d0_ = new StaticFunction<void()>(&static_arg0);
     d0_();
 
@@ -280,9 +302,8 @@ const char* test_delegate()
         test_sta_exec
     };
 
-    for (int i = 0; i < KJSD_LENGTH(f); i++)
+    for (size_t i = 0; i < KJSD_LENGTH(f); i++)
     {
-        setUp();
         KJSD_CUNIT_RUN(f[i]);
     }
     return 0;
