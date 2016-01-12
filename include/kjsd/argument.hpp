@@ -11,7 +11,7 @@
  * int main(int argc, char** argv) {
  *     Argument arg(argc, argv);
  *     Argument::iterator it = arg.begin();
- *     while (it == arg.end()) {
+ *     while (it != arg.end()) {
  *         if (it.status() == Argument::SHORT)
  *             *it; // is 'a'
  *         else if (it.status() == Argument::LONG)

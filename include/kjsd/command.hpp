@@ -11,7 +11,7 @@
  * class Bar() { public: void func(int i){ std::cout << i << std::endl; } };
  * Foo f;
  * Bar b;
- * Command<void(int)> com_f1(new InstanceFunction<Foo,void(int)>(&f,&Foo::func),
+ * Command<void(int)> com_f1(new InstanceFunction<Foo,void(int)>(&f,&Foo::func),1);
  * Command<void(int)> com_f2;
  * com_f2 = new InstanceFunction<Bar, void(int)>(&b, &Bar::func);
  * com_f2.bind(2);

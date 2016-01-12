@@ -10,6 +10,7 @@
  * @see <related_items>
  ***********************************************************************/
 #include <iostream>
+#include <cstring>
 #include <kjsd/cunit.h>
 #include <kjsd/argument.hpp>
 
