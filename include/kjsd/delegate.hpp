@@ -188,7 +188,7 @@ namespace kjsd
     public:                                                             \
         Delegate(Function<R(KJSD_DELEGATE_TARG##num)>* fp = 0) :        \
             fp_(fp)                                                     \
-        { set_default(); }                                              \
+        {}                                                              \
         virtual ~Delegate() {}                                          \
                                                                         \
         Delegate(const Delegate<R(KJSD_DELEGATE_TARG##num)>& d)         \
@@ -197,7 +197,6 @@ namespace kjsd
             operator=(const Delegate<R(KJSD_DELEGATE_TARG##num)>& d)    \
             {                                                           \
                 fp_ = d.fp_;                                            \
-                set_default();                                          \
                 return *this;                                           \
             }                                                           \
                                                                         \
@@ -205,17 +204,21 @@ namespace kjsd
             operator=(Function<R(KJSD_DELEGATE_TARG##num)>* fp)         \
             {                                                           \
                 fp_ = fp;                                               \
-                set_default();                                          \
                 return *this;                                           \
             }                                                           \
         virtual R operator()(KJSD_DELEGATE_FPAR##num) const             \
         {                                                               \
-            return (*fp_)(KJSD_DELEGATE_FARG##num);                     \
+            return (fp_ == 0) ?                                         \
+                Nop<R>::f():                                            \
+                (*fp_)(KJSD_DELEGATE_FARG##num);                        \
         }                                                               \
         virtual bool operator==                                         \
             (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const       \
         {                                                               \
-            return *fp_ == *(d.fp_);                                    \
+            if ((fp_ == 0) || (d.fp_ == 0))                             \
+                return (fp_ == 0) && (d.fp_ == 0);                      \
+            else                                                        \
+                return *fp_ == *(d.fp_);                                \
         }                                                               \
         virtual bool operator!=                                         \
             (const Delegate<R(KJSD_DELEGATE_TARG##num)>& d) const       \
@@ -224,13 +227,6 @@ namespace kjsd
         }                                                               \
     private:                                                            \
         SharedPtr<Function<R(KJSD_DELEGATE_TARG##num)> > fp_;           \
-        void set_default()                                              \
-        {                                                               \
-            if (fp_ == 0)                                               \
-            {                                                           \
-                fp_ = new StaticFunction<R(KJSD_DELEGATE_TARG##num)>(); \
-            }                                                           \
-        }                                                               \
     }
 
     KJSD_FUNCTION_DEF(0);

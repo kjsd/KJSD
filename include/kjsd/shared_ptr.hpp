@@ -26,7 +26,7 @@ namespace kjsd
         SharedPtr(T* p = 0) : p_(p)
         {
             if (p_ == 0) return;
-            ++ref_cnt_[p_];
+            ++reference_counter()[p_];
         }
         virtual ~SharedPtr()
         {
@@ -46,7 +46,7 @@ namespace kjsd
             p_ = p;
             if (p_ != 0)
             {
-                ++ref_cnt_[p_];
+                ++reference_counter()[p_];
             }
             delete_if_nocnt(tmp);
 
@@ -82,22 +82,22 @@ namespace kjsd
 
         size_t use_count() const
         {
-            return (p_ == 0) ? 0: ref_cnt_[p_];
+            return (p_ == 0) ? 0: reference_counter()[p_];
         }
 
     private:
         T* p_;
-        static HashTable<T*, size_t> ref_cnt_;
+        static HashTable<T*, size_t>& reference_counter();
 
         void delete_if_nocnt(T* p)
         {
             if (p == 0) return;
-            assert(ref_cnt_.count(p) != 0);
-            assert(ref_cnt_[p] > 0);
+            assert(reference_counter().count(p) != 0);
+            assert(reference_counter()[p] > 0);
 
-            if (--ref_cnt_[p] == 0)
+            if (--reference_counter()[p] == 0)
             {
-                ref_cnt_.erase(p);
+                reference_counter().erase(p);
                 KJSD_DPRINTF("delete %ld\n", reinterpret_cast<size_t>(p));
                 delete p;
             }
@@ -105,7 +105,11 @@ namespace kjsd
     };
 
     template<typename T>
-    HashTable<T*, size_t> SharedPtr<T>::ref_cnt_;
+    HashTable<T*, size_t>& SharedPtr<T>::reference_counter()
+    {
+        static HashTable<T*, size_t> ref_cnt;
+        return ref_cnt;
+    }
 }
 
 #endif // KJSD_SHARED_PTR_HPP
