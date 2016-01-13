@@ -30,7 +30,7 @@ namespace kjsd
         }
         virtual ~SharedPtr()
         {
-            delete_if_nocnt(p_);
+            delete_if_noref();
         }
         SharedPtr(const SharedPtr& me) : p_(0)
         { *this = me; }
@@ -41,14 +41,12 @@ namespace kjsd
         }
         SharedPtr& operator=(T* p)
         {
-            T* tmp = p_;
-
-            p_ = p;
-            if (p_ != 0)
+            if (p != 0)
             {
-                ++reference_counter()[p_];
+                ++reference_counter()[p];
             }
-            delete_if_nocnt(tmp);
+            delete_if_noref();
+            p_ = p;
 
             return *this;
         }
@@ -89,17 +87,18 @@ namespace kjsd
         T* p_;
         static HashTable<T*, size_t>& reference_counter();
 
-        void delete_if_nocnt(T* p)
+        void delete_if_noref()
         {
-            if (p == 0) return;
-            assert(reference_counter().count(p) != 0);
-            assert(reference_counter()[p] > 0);
+            if (p_ == 0) return;
+            assert(reference_counter().count(p_) != 0);
+            assert(reference_counter()[p_] > 0);
 
-            if (--reference_counter()[p] == 0)
+            if (--reference_counter()[p_] == 0)
             {
-                reference_counter().erase(p);
-                KJSD_DPRINTF("delete %ld\n", reinterpret_cast<size_t>(p));
-                delete p;
+                reference_counter().erase(p_);
+                KJSD_DPRINTF("delete %ld\n", reinterpret_cast<size_t>(p_));
+                delete p_;
+                p_ = 0;
             }
         }
     };
