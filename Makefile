@@ -182,9 +182,9 @@ OBJ_TEST = $(OBJ_C_TEST) $(OBJ_CXX_TEST)
 CFLAGS +=  -Wall $(addprefix -D, $(DEFINES)) $(addprefix -I, $(EXT_INCDIR))
 CFLAGS_LIB += -fPIC $(CFLAGS)
 CFLAGS_TEST += -Wall $(addprefix -D, $(DEFINES_TEST)) $(addprefix -I, $(EXT_INCDIR_TEST))
-CXXFLAGS += $(CFLAGS) -Wno-return-type
+CXXFLAGS += $(CFLAGS)
 CXXFLAGS_LIB += $(CFLAGS_LIB)
-CXXFLAGS_TEST += $(CFLAGS_TEST) -Wno-return-type
+CXXFLAGS_TEST += $(CFLAGS_TEST)
 
 # Flags for the linker.
 LDFLAGS += $(addprefix -L, $(EXT_LIBDIR)) $(addprefix -l, $(EXT_LIB))
